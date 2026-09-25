@@ -10,12 +10,18 @@ mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null
 mv ~/.local/share/nvim ~/.local/share/nvim.bak 2>/dev/null
 
 git clone https://github.com/hzerrad/nvim.git ~/.config/nvim
+
+# install everything, then pin every plugin to the commit in lazy-lock.json
+nvim --headless "+Lazy! restore" +qa
+git -C ~/.config/nvim checkout lazy-lock.json
+nvim --headless "+Lazy! restore" +qa
 nvim
 ```
 
-The first launch installs lazy.nvim and every plugin. Then run `:Lazy restore` to pin
-every plugin to the exact commit in `lazy-lock.json`. Mason installs the language servers
-and formatters in the background (see `:Mason`).
+The first install pulls some plugins at their latest commit and rewrites
+`lazy-lock.json`. The checkout puts the committed lockfile back, so the second
+restore lands on the same versions as every other machine. Mason installs the
+language servers and formatters on the first real launch (see `:Mason`).
 
 ## Requirements
 
